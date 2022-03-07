@@ -1,0 +1,38 @@
+{
+  "name": "quarterlyreports-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "engines": {
+    "node": "16.14.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "body-parser": "^1.19.1",
+    "bull": "^4.4.0",
+    "cors": "^2.8.5",
+    "cron": "^1.8.2",
+    "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "moment-timezone": "^0.5.34",
+    "mysql2": "^2.3.3",
+    "node-fetch": "^2.6.6",
+    "node-localstorage": "^2.2.1",
+    "nodemon": "^2.0.15",
+    "otp-generator": "^4.0.0",
+    "path": "^0.12.7",
+    "sendmail": "^1.6.1",
+    "sequelize": "^7.0.0-alpha.4"
+  }
+}
