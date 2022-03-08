@@ -4,26 +4,12 @@ const app = express();
 var cors = require('cors')
 const db = require("./api/models");
 const dbConfig = require("./api/config/db.config.js");
-//const fiill1 = require("./api/controllers/ReOrderController.js")
-const moment = require('moment-timezone');
-//moment.tz(Constants.TZ || "Asia/Kolkata").format();
+const reports = require("./api/controllers/CheckReportsController.js")
 
 
-// var whitelist = Constants.CorsAllowedURL;
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
 
 
 app.get("/", (req, res) => {
@@ -33,7 +19,7 @@ app.get("/", (req, res) => {
 db.sequelize.sync().then(() => {
   console.log("Drop and re-sync db.");
 });
-//fiill1.reOrder();
+reports.checkReports();
 
 
 require("./api/routes/UserRoute.js")(app);

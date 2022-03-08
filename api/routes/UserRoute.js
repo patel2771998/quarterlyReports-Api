@@ -9,7 +9,6 @@ module.exports = app => {
 
     app.post("/api/user/login", users.login);
 
-
     app.post("/api/user/edit",[authJwt.verifyToken], users.edit);
 
     app.post("/api/user/forgotPassword",[authJwt.verifyToken], users.forgotPassword);

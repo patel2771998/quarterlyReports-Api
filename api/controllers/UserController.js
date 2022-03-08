@@ -1,9 +1,7 @@
 var md5 = require('md5');
 const db = require("../models");
 const User = db.user;
-const Account = db.account;
 var jwt = require("jsonwebtoken");
-const { Op } = require('sequelize');
 const otpGenerator = require('otp-generator')
 
 exports.create = async (req, res) => {
@@ -13,7 +11,6 @@ exports.create = async (req, res) => {
         });
     }
     try {
-        var verificationCode = Math.floor(100000 + Math.random() * 900000);
         const user = {
             name: req.body.name,
             user_name: req.body.user_name,
@@ -35,7 +32,7 @@ exports.create = async (req, res) => {
         console.log(error)
         res.status(500).send({
             status: false,
-            message: err.message || "Something went wrong."
+            message: error.message || "Something went wrong."
         });
     }
 };

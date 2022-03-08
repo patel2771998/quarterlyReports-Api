@@ -1,9 +1,5 @@
-const path = require('path');
-
-const { PostApiCall, GetApiCall } = require('../config/ApiServices');
+const {GetApiCall } = require('../config/ApiServices');
 const db = require("../models");
-const sendmail = require('../config/Sendmail.js');
-const User = db.user
 const Follow =  db.follow
 const dbConfig = require("../config/db.config.js");
 
@@ -12,7 +8,7 @@ exports.list = async (req, res) => {
     if (!req.body.symbol) {
         return res.status(400).send({
             status: false,
-            message: "please enter a type of scrip!"
+            message: "please enter a symbol!"
         });
     }
     try { 
@@ -28,8 +24,6 @@ exports.list = async (req, res) => {
         });
     }
 };
-
-
 
 
 exports.follow = async (req, res) => {
@@ -50,8 +44,9 @@ exports.follow = async (req, res) => {
             status : true,
             data : 'successfully  follow' + req.body.symbol
         }
-        res.send(earning)
+        res.send(data)
     } catch (error) {
+        console.log(error);
         res.status(500).send({
             status: false,
             message: error.message || "Something went wrong."
@@ -73,7 +68,7 @@ exports.unfollow = async (req, res) => {
             status : true,
             data : 'successfully  unfollow' + req.body.symbol
         }
-        res.send(earning)
+        res.send(data)
     } catch (error) {
         res.status(500).send({
             status: false,

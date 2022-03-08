@@ -9,7 +9,7 @@ verifyToken = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, 'tis_trading', (err, decoded) => {
+  jwt.verify(token,'quartely_reports', (err, decoded) => {
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!"

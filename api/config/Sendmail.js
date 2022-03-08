@@ -1,6 +1,6 @@
 const sendmail = require('sendmail')();
 
-function sendMail(mailData) {
+const  sendMail = async (mailData) =>{
     try {
         const mail = sendmail({
             from: 'no-reply@quarterlyReports.com',
