@@ -37,6 +37,41 @@ exports.create = async (req, res) => {
     }
 };
 
+exports.getProfile = (req, res) => {
+    User.findAll({
+        where: {
+            id: req.userId
+        }
+    })
+        .then(async data => {
+            if (data.length != 0) {
+                const userData = data[0];
+                delete userData.dataValues.password;
+                var accountArray = {
+                    account: []
+                }
+                var newObject = Object.assign(userData.dataValues, accountArray);
+                var dataObject = {
+                    status: true,
+                    message: "Login successfully!",
+                    userData: newObject
+                }
+                res.send(dataObject);
+            } else {
+                res.status(400).send({
+                    status: false,
+                    message: "Email or Password not Match!"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                status: false,
+                message: err.message || "Something went wrong."
+            });
+        });
+}
+
 exports.login = (req, res) => {
     if (!req.body.email || !req.body.password) {
         return res.status(400).send({
