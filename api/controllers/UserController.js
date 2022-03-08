@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.user;
 var jwt = require("jsonwebtoken");
 const otpGenerator = require('otp-generator')
+const {sendMail} = require('../config/Sendmail.js');
 
 exports.create = async (req, res) => {
     if (!req.body.name || !req.body.user_name || !req.body.email || !req.body.password) {
@@ -117,18 +118,29 @@ exports.forgotPassword = async (req, res) => {
     }
     try {
         const userData = await User.findOne({ where: { email: req.body.email } })
+        if(!!userData){
+        }else{
+            res.status(500).send({
+                status: false,
+                message: "Email Not found"
+            });
+            return;
+        }
         try {
-            const otp = otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
-            const userupdate = await User.update({ otp: otp }, { where: { id: userData.id } })
+            const userData = await User.findOne({ where: { email: req.body.email } })
+            let password = generatePassword();
+            console.log(typeof password);
+            const userupdate = await User.update({ password: md5(password) }, { where: { id: userData.id } })
             const sendMailData = {
                 to: userData.email,
-                subject: 'Forgote Password',
-                text: 'We received a request to forgot password  TIS account. The verify Code is:' + otp
+                subject: 'Forgot Password Request Received',
+                text: 'You are received a request to forgot password of your account. The New Password is:' + password
             }
-            sendmail.sendMail(sendMailData);
+            console.log(password);
+            sendMail(sendMailData);
             var data = {
                 status: true,
-                data: "otp is sent successfully "
+                message: "Mail sent successfully."
             }
             res.send(data)
         } catch (error) {
@@ -137,6 +149,7 @@ exports.forgotPassword = async (req, res) => {
                 status: false,
                 message: error.message || "Something went wrong."
             });
+            return;
         }
     } catch (error) {
         console.log(error)
@@ -144,15 +157,25 @@ exports.forgotPassword = async (req, res) => {
             status: false,
             message: "please enter your correct email."
         });
+        return;
     }
 };
 
-
+function generatePassword() {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
 exports.verifyOtp = async (req, res) => {
     if (!req.body.email || !req.body.otp) {
         return res.status(400).send({
             message: "please enter your otp!"
         });
+
     }
     try {
         const userData = await User.findOne({ where: { email: req.body.email } })
