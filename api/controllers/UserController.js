@@ -51,7 +51,7 @@ exports.login = (req, res) => {
         }
     })
         .then(async data => {
-            if (data.length != 0) {
+            if (!! data  && data.length != 0) {
                 var token = jwt.sign({ id: data.id }, 'quartely_reports', {
                     expiresIn: 86400 // 24 hours
                 });
