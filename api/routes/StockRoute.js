@@ -9,4 +9,6 @@ module.exports = app => {
 
   app.post("/api/stock/unfollow", [authJwt.verifyToken], stock.unfollow)
 
+  app.post("/api/stock/follow/check", [authJwt.verifyToken], stock.checkFollow);
+
 };

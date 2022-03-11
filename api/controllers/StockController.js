@@ -16,7 +16,18 @@ exports.list = async (req, res) => {
         const earningUrl = 'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol='+req.body.symbol+'&apikey='+ dbConfig.apikey
         var headers = { 'User-Agent': 'request' }
         const earning = await GetApiCall(earningUrl, headers);
-        res.send(earning)
+        if(!!earning && Object.keys(earning).length > 0){
+            var data = {
+                status : true,
+                data : earning
+            }
+        }else{
+            var data = {
+                status : false,
+                data :'result not found'
+            }
+        }
+        res.send(data)
     } catch (error) {
         res.status(500).send({
             status: false,
@@ -42,7 +53,7 @@ exports.follow = async (req, res) => {
         const follow = await Follow.create(followData)
         var data = {
             status : true,
-            data : 'successfully  follow' + req.body.symbol
+            data : 'successfully  follow   ' + req.body.symbol
         }
         res.send(data)
     } catch (error) {
@@ -66,7 +77,7 @@ exports.unfollow = async (req, res) => {
         const unFollow = await Follow.destroy({where:{symbol:req.body.symbol,id_user:req.userId}})
         var data = {
             status : true,
-            data : 'successfully  unfollow' + req.body.symbol
+            data : 'successfully  unfollow  ' + req.body.symbol
         }
         res.send(data)
     } catch (error) {
@@ -76,3 +87,37 @@ exports.unfollow = async (req, res) => {
         });
     }
 };
+
+exports.checkFollow = async (req, res) => {
+    if (!req.body.symbol) {
+        return res.status(400).send({
+            status: false,
+            message: "please enter a required filed!"
+        });
+    }
+    try {
+        
+        const follow = await Follow.findOne({where:{id_user:req.userId,symbol:req.body.symbol}})
+        if(!!follow){
+            var data = {
+                status : true,
+                data : follow
+            }
+        }else{
+            var data = {
+                status : false,
+                data : follow
+            }
+        }
+        
+        res.send(data)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            status: false,
+            message: error.message || "Something went wrong."
+        });
+    }
+};
+
+
