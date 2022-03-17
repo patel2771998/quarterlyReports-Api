@@ -39,7 +39,7 @@ async function checkReports() {
 
     }
 
-    var job = new CronJob('40 12 * * *', async function test() {
+    var job = new CronJob('50 12 * * *', async function test() {
         try {
             const followMail = await followsend()
             // .then(() => {

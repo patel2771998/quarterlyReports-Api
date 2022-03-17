@@ -68,32 +68,13 @@ const sendMail = async (mailData) => {
       </style>
       <table cellpadding="10" cellspacing="0"  align="center" border="1" class="reportE" style="width:100%;display: block;overflow-x: scroll;color: #111;font-family: sans-serif;font-size: 14px;border-collapse: collapse;"><thead><tr><th>Date</th><th>Gross Profit</th><th>Total Revenue</th><th>Cost Of Revenue</th><th>Cost Of Goods And Services Sold</th><th>Selling General And Administrative</th><th>Research And Development</th><th>Operating Expenses</th><th>NetInterest Income</th><th>Interest Income</th><th>Interest Expense</th><th>Non Interest Income</th><th>Other Non Operating Income</th><th>Income Before Tax</th><th>Income Tax Expense</th><th>Interest And Debt Expense</th><th>Net Income From Continuing Operations</th><th>Comprehensive Income Net Of Tax</th><th>Net Income</th></tr></thead><tbody>${mytable}</tbody></table>`
 
-
-    let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: 'jasoliyamirav111@gmail.com', // generated ethereal user
-        pass: 'mvpatidar', // generated ethereal password
-      },
+    const mail = sendmail({
+        from: 'no-reply@quarterlyReports.com',
+        to: mailData.to,
+        subject: 'Earning Report of ' + mailData.symbol,
+        //text: mailData.text,
+        html: html
     });
-    // send mail with defined transport object
-    const mail = await transporter.sendMail({
-      from: 'jasoliyamirav111@gmail.com', // sender address
-      to: mailData.to, // list of receivers
-      subject: mailData.subject, // Subject line
-      //text: mailData.text, // plain text body
-      html: html, // html body
-    });
-
-    // const mail = sendmail({
-    //     from: 'no-reply@quarterlyReports.com',
-    //     to: mailData.to,
-    //     subject: 'Earning Report of ' + mailData.symbol,
-    //     text: mailData.text,
-    //     html: html
-    // });
     return mail;
   } catch (error) {
     throw error;
