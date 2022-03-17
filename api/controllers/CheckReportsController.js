@@ -25,8 +25,8 @@ async function checkReports() {
                     const userDetail = await User.findOne({ where: { id: follow[i].id_user } })
                     const mailData = {
                         to: userDetail.email,
-                        subject: quarterlyReports,
-                        report:earning.quarterlyEarnings
+                        subject: 'quarterlyReports',
+                        report:quarterlyReports.quarterlyReports
                     }
                    
                     const sendmail = await sendMail(mailData)
@@ -39,7 +39,7 @@ async function checkReports() {
 
     }
 
-    var job = new CronJob('50 12 * * *', async function test() {
+    var job = new CronJob('02 1 * * *', async function test() {
         try {
             const followMail = await followsend()
             // .then(() => {
