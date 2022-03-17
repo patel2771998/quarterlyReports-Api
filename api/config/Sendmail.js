@@ -1,6 +1,4 @@
 const sendmail = require('sendmail')();
-const nodemailer = require("nodemailer");
-
 
 const sendMail = async (mailData) => {
   try {
