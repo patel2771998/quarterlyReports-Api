@@ -23,12 +23,11 @@ async function checkReports() {
                     const quarterlyReportsUrl = 'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=' + follow[i].symbol + '&apikey=' + dbConfig.apikey
                     const quarterlyReports = await GetApiCall(quarterlyReportsUrl, headers);
                     const userDetail = await User.findOne({ where: { id: follow[i].id_user } })
-                    const mailData = {
+                    var  mailData = {
                         to: userDetail.email,
                         subject: 'quarterlyReports',
-                        report:quarterlyReports.quarterlyReports
+                        report:quarterlyReports
                     }
-                   
                     const sendmail = await sendMail(mailData)
                     const updateFollow = await Follow.update({ fiscalDateEnding: earning.quarterlyEarnings[0].fiscalDateEnding}, { where: { id: follow[i].id } })
                     console.log('success fully send message')

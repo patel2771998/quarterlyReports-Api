@@ -4,30 +4,29 @@ const sendMail = async (mailData) => {
   try {
     var mytable = "";
 
-    for (var i = 0; i < mailData.report.length; i++) {
-
+    for (var i = 0; i < mailData.report.quarterlyReports.length; i++) {
       mytable += "<tr>";
-      var date = new Date(mailData.report[i].fiscalDateEnding)
+      var date = new Date(mailData.report.quarterlyReports[i].fiscalDateEnding)
       var lastDate = date.toLocaleString("en-US", { month: "short" }) + ' ' + date.getFullYear()
       mytable += "<td> " + lastDate + "</td>";
-      mytable += "<td> " + mailData.report[i].grossProfit + "</td>";
-      mytable += "<td> " + mailData.report[i].totalRevenue + "</td>";
-      mytable += "<td> " + mailData.report[i].costOfRevenue + "</td>";
-      mytable += "<td> " + mailData.report[i].costofGoodsAndServicesSold + "</td>";
-      mytable += "<td> " + mailData.report[i].sellingGeneralAndAdministrative + "</td>";
-      mytable += "<td> " + mailData.report[i].researchAndDevelopment + "</td>";
-      mytable += "<td> " + mailData.report[i].operatingExpenses + "</td>";
-      mytable += "<td> " + mailData.report[i].netInterestIncome + "</td>";
-      mytable += "<td> " + mailData.report[i].interestIncome + "</td>";
-      mytable += "<td> " + mailData.report[i].interestExpense + "</td>";
-      mytable += "<td> " + mailData.report[i].nonInterestIncome + "</td>";
-      mytable += "<td> " + mailData.report[i].otherNonOperatingIncome + "</td>";
-      mytable += "<td> " + mailData.report[i].incomeBeforeTax + "</td>";
-      mytable += "<td> " + mailData.report[i].incomeTaxExpense + "</td>";
-      mytable += "<td> " + mailData.report[i].interestAndDebtExpense + "</td>";
-      mytable += "<td> " + mailData.report[i].netIncomeFromContinuingOperations + "</td>";
-      mytable += "<td> " + mailData.report[i].comprehensiveIncomeNetOfTax + "</td>";
-      mytable += "<td> " + mailData.report[i].netIncome + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].grossProfit + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].totalRevenue + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].costOfRevenue + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].costofGoodsAndServicesSold + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].sellingGeneralAndAdministrative + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].researchAndDevelopment + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].operatingExpenses + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].netInterestIncome + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].interestIncome + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].interestExpense + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].nonInterestIncome + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].otherNonOperatingIncome + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].incomeBeforeTax + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].incomeTaxExpense + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].interestAndDebtExpense + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].netIncomeFromContinuingOperations + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].comprehensiveIncomeNetOfTax + "</td>";
+      mytable += "<td> " + mailData.report.quarterlyReports[i].netIncome + "</td>";
       mytable += "</tr>";
     }
     const html =
@@ -71,7 +70,7 @@ const sendMail = async (mailData) => {
     const mail = sendmail({
         from: 'no-reply@quarterlyReports.com',
         to: mailData.to,
-        subject: 'Earning Report of ' + mailData.symbol,
+        subject: 'Earning Report of ' + mailData.report.symbol,
         //text: mailData.text,
         html: html
     });
